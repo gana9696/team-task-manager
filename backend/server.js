@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: process.env.CLIENT_URL || '*',
   credentials: true
 }));
 app.use(express.json());
@@ -19,23 +19,28 @@ app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/users', require('./routes/users'));
 
 // Health check
-app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Server running' }));
+app.get('/api/health', (req, res) =>
+  res.json({ status: 'OK', message: 'Server running' })
+);
 
+// Root route
 app.get('/', (req, res) => {
-  res.send("Team Task Manager API is running...");
+  res.send("🚀 Team Task Manager API is running...");
 });
 
-// Connect to MongoDB & Start server
-const PORT = process.env.PORT || 5000;
+// 🔥 IMPORTANT: Railway PORT fix
+const PORT = process.env.PORT;
 
+// MongoDB connect + server start
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB Connected');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+    app.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
   })
   .catch(err => {
     console.error('MongoDB connection error:', err);
     process.exit(1);
   });
-
-  
