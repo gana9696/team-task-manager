@@ -29,12 +29,9 @@ app.get('/', (req, res) => {
 });
 
 // ================= PORT (STRICT FOR RAILWAY) =================
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
-if (!PORT) {
-  console.error("❌ PORT not provided by Railway");
-  process.exit(1);
-}
+
 
 // ================= DATABASE + SERVER =================
 mongoose.connect(process.env.MONGO_URI)
