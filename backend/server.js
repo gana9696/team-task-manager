@@ -19,9 +19,9 @@ app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/users', require('./routes/users'));
 
 // Health check
-app.get('/api/health', (req, res) =>
-  res.json({ status: 'OK', message: 'Server running' })
-);
+app.get('/api/health', (req, res) => {
+  res.send("OK");
+});
 
 // Root route
 app.get('/', (req, res) => {
@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 // 🔥 IMPORTANT: Railway PORT
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 
 // MongoDB connect + server start
 mongoose.connect(process.env.MONGO_URI)
