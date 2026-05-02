@@ -7,7 +7,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || '*',
+  origin: '*',
   credentials: true
 }));
 app.use(express.json());
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
   res.send("🚀 Team Task Manager API is running...");
 });
 
-// 🔥 IMPORTANT: Railway PORT fix
+// 🔥 IMPORTANT: Railway PORT
 const PORT = process.env.PORT;
 
 // MongoDB connect + server start
