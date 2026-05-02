@@ -5,42 +5,48 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware
+// ================= MIDDLEWARE =================
 app.use(cors({
   origin: '*',
   credentials: true
 }));
 app.use(express.json());
 
-// Routes
+// ================= ROUTES =================
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/users', require('./routes/users'));
 
-// Health check
+// ================= HEALTH =================
 app.get('/api/health', (req, res) => {
   res.send("OK");
 });
 
-// Root route
+// ================= ROOT =================
 app.get('/', (req, res) => {
   res.send("🚀 Team Task Manager API is running...");
 });
 
-// 🔥 IMPORTANT: Railway PORT
-const PORT = process.env.PORT || 8080;
+// ================= PORT (STRICT FOR RAILWAY) =================
+const PORT = process.env.PORT;
 
-// MongoDB connect + server start
+if (!PORT) {
+  console.error("❌ PORT not provided by Railway");
+  process.exit(1);
+}
+
+// ================= DATABASE + SERVER =================
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    console.log('MongoDB Connected');
+    console.log('✅ MongoDB Connected');
 
     app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
+
   })
   .catch(err => {
-    console.error('MongoDB connection error:', err);
+    console.error('❌ MongoDB connection error:', err);
     process.exit(1);
   });
