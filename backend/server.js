@@ -21,6 +21,10 @@ app.use('/api/users', require('./routes/users'));
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK', message: 'Server running' }));
 
+app.get('/', (req, res) => {
+  res.send("Team Task Manager API is running...");
+});
+
 // Connect to MongoDB & Start server
 const PORT = process.env.PORT || 5000;
 
